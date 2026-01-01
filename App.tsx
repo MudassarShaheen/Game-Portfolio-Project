@@ -33,20 +33,23 @@ const App: React.FC = () => {
       {/* Navigation Header */}
       <nav className="fixed top-0 w-full z-50 glass border-b border-white/5">
         <div className="max-w-7xl mx-auto px-6 py-5 flex justify-between items-center">
-          <div className="text-xl font-black tracking-tighter flex items-center gap-2 group cursor-pointer">
+          <div 
+            className="text-xl font-black tracking-tighter flex items-center gap-2 group cursor-pointer"
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          >
             <div className="w-10 h-10 bg-violet-600 rounded-xl rotate-12 flex items-center justify-center text-white group-hover:rotate-0 transition-transform shadow-lg shadow-violet-900/40">
               <Gamepad2 size={20} />
             </div>
-            <span className="hidden sm:inline bg-clip-text text-transparent bg-gradient-to-r from-white to-zinc-400">MS_ENGINE</span>
+            <span className="hidden sm:inline bg-clip-text text-transparent bg-gradient-to-r from-white to-zinc-400 font-mono tracking-tighter">MS_ENGINE</span>
           </div>
           <div className="flex items-center gap-6 md:gap-10">
-            <a href="#projects" className="text-sm font-bold text-zinc-400 hover:text-white transition-colors">WORK</a>
-            <a href="#skills" className="text-sm font-bold text-zinc-400 hover:text-white transition-colors">SKILLS</a>
+            <a href="#projects" className="text-sm font-bold text-zinc-400 hover:text-white transition-colors uppercase tracking-wider">Work</a>
+            <a href="#skills" className="text-sm font-bold text-zinc-400 hover:text-white transition-colors uppercase tracking-wider">Skills</a>
             <a 
               href={SOCIAL_LINKS.linkedin}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-xs font-black py-2 px-5 bg-violet-600 hover:bg-violet-500 text-white rounded-full transition-all active:scale-95 shadow-lg shadow-violet-900/20"
+              className="text-xs font-black py-2.5 px-6 bg-violet-600 hover:bg-violet-500 text-white rounded-full transition-all active:scale-95 shadow-lg shadow-violet-900/20"
             >
               HIRE ME
             </a>
@@ -57,8 +60,8 @@ const App: React.FC = () => {
       {/* Hero Section */}
       <Hero />
 
-      {/* Projects Section */}
-      <section id="projects" className="py-24 px-4 max-w-7xl mx-auto">
+      {/* Projects Section - Added scroll-mt-24 for fixed header offset */}
+      <section id="projects" className="py-24 px-4 max-w-7xl mx-auto scroll-mt-24">
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-10 mb-16">
           <div className="max-w-xl">
             <h2 className="text-4xl md:text-5xl font-black mb-6">Portfolio Showcase</h2>
@@ -100,8 +103,8 @@ const App: React.FC = () => {
         </motion.div>
       </section>
 
-      {/* Skills Section */}
-      <div id="skills" className="relative">
+      {/* Skills Section - Added scroll-mt-24 for fixed header offset */}
+      <div id="skills" className="relative scroll-mt-24">
         <div className="absolute inset-0 bg-zinc-900/20 pointer-events-none" />
         <SkillCloud />
       </div>
