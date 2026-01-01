@@ -28,6 +28,23 @@ const App: React.FC = () => {
       : PROJECTS.filter(p => p.category === activeCategory);
   }, [activeCategory]);
 
+  const handleScrollTo = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+    e.preventDefault();
+    const element = document.getElementById(id);
+    if (element) {
+      const offset = 90; // Fixed header height
+      const bodyRect = document.body.getBoundingClientRect().top;
+      const elementRect = element.getBoundingClientRect().top;
+      const elementPosition = elementRect - bodyRect;
+      const offsetPosition = elementPosition - offset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+    }
+  };
+
   return (
     <div className="min-h-screen selection:bg-violet-500/30 selection:text-white">
       {/* Navigation Header */}
@@ -43,8 +60,20 @@ const App: React.FC = () => {
             <span className="hidden sm:inline bg-clip-text text-transparent bg-gradient-to-r from-white to-zinc-400 font-mono tracking-tighter">MS_ENGINE</span>
           </div>
           <div className="flex items-center gap-6 md:gap-10">
-            <a href="#projects" className="text-sm font-bold text-zinc-400 hover:text-white transition-colors uppercase tracking-wider">Work</a>
-            <a href="#skills" className="text-sm font-bold text-zinc-400 hover:text-white transition-colors uppercase tracking-wider">Skills</a>
+            <a 
+              href="#projects" 
+              onClick={(e) => handleScrollTo(e, 'projects')}
+              className="text-sm font-bold text-zinc-400 hover:text-white transition-colors uppercase tracking-wider cursor-pointer"
+            >
+              Work
+            </a>
+            <a 
+              href="#skills" 
+              onClick={(e) => handleScrollTo(e, 'skills')}
+              className="text-sm font-bold text-zinc-400 hover:text-white transition-colors uppercase tracking-wider cursor-pointer"
+            >
+              Skills
+            </a>
             <a 
               href={SOCIAL_LINKS.linkedin}
               target="_blank"
@@ -60,7 +89,7 @@ const App: React.FC = () => {
       {/* Hero Section */}
       <Hero />
 
-      {/* Projects Section - Added scroll-mt-24 for fixed header offset */}
+      {/* Projects Section */}
       <section id="projects" className="py-24 px-4 max-w-7xl mx-auto scroll-mt-24">
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-10 mb-16">
           <div className="max-w-xl">
@@ -70,7 +99,6 @@ const App: React.FC = () => {
             </p>
           </div>
 
-          {/* Filters - Scrollable on mobile */}
           <div className="w-full lg:w-auto overflow-x-auto pb-4 lg:pb-0">
             <div className="flex gap-2 p-2 glass rounded-2xl border-white/5 whitespace-nowrap">
               {categories.map((cat) => (
@@ -90,7 +118,6 @@ const App: React.FC = () => {
           </div>
         </div>
 
-        {/* Project Grid */}
         <motion.div 
           layout
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
@@ -103,7 +130,7 @@ const App: React.FC = () => {
         </motion.div>
       </section>
 
-      {/* Skills Section - Added scroll-mt-24 for fixed header offset */}
+      {/* Skills Section */}
       <div id="skills" className="relative scroll-mt-24">
         <div className="absolute inset-0 bg-zinc-900/20 pointer-events-none" />
         <SkillCloud />

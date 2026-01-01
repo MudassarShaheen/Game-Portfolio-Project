@@ -3,6 +3,31 @@ import React from 'react';
 import { motion } from 'framer-motion';
 
 const Hero: React.FC = () => {
+  const handleScrollToWork = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    const element = document.getElementById('projects');
+    if (element) {
+      const offset = 90;
+      const bodyRect = document.body.getBoundingClientRect().top;
+      const elementRect = element.getBoundingClientRect().top;
+      const elementPosition = elementRect - bodyRect;
+      const offsetPosition = elementPosition - offset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+    }
+  };
+
+  const handleScrollToContact = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    const element = document.getElementById('contact');
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <section className="relative min-h-[70vh] flex flex-col items-center justify-center px-4 overflow-hidden pt-24 pb-12">
       {/* Background Orbs */}
@@ -50,13 +75,15 @@ const Hero: React.FC = () => {
         >
           <a 
             href="#projects"
-            className="px-10 py-4 bg-violet-600 hover:bg-violet-500 text-white font-bold rounded-2xl transition-all glow-violet hover:scale-105 active:scale-95 shadow-lg shadow-violet-900/20"
+            onClick={handleScrollToWork}
+            className="px-10 py-4 bg-violet-600 hover:bg-violet-500 text-white font-bold rounded-2xl transition-all glow-violet hover:scale-105 active:scale-95 shadow-lg shadow-violet-900/20 cursor-pointer"
           >
             Explore Projects
           </a>
           <a 
             href="#contact"
-            className="px-10 py-4 bg-transparent border border-zinc-700 hover:border-zinc-500 text-white font-bold rounded-2xl transition-all hover:bg-white/5 active:scale-95"
+            onClick={handleScrollToContact}
+            className="px-10 py-4 bg-transparent border border-zinc-700 hover:border-zinc-500 text-white font-bold rounded-2xl transition-all hover:bg-white/5 active:scale-95 cursor-pointer"
           >
             Let's Talk
           </a>
