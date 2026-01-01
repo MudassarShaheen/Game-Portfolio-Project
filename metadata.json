@@ -1,0 +1,8 @@
+{
+  "name": "Mudassar Shaheen - Unity Dev Portfolio",
+  "description": "Professional Unity Game Developer Portfolio featuring Client Projects, Hypercasual hits, VR experiences, and Technical Tutorials.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
