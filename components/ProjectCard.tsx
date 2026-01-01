@@ -20,24 +20,25 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
 
     // Handle YouTube
     if (url.includes('youtube.com') || url.includes('youtu.be')) {
+      // Improved regex to handle /embed/, /watch?v=, /shorts/, etc.
       const idMatch = url.match(/(?:embed\/|v=|v\/|vi\/|youtu\.be\/|\/v\/|shorts\/|watch\?v=)([^#&?]*).*/);
       const videoId = idMatch && idMatch[1].length === 11 ? idMatch[1] : null;
       
       if (videoId) {
         url = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&controls=1&mute=0`;
+        // YouTube provides several thumbnail qualities
         thumb = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
       }
     } 
     // Handle Google Drive
     else if (url.includes('drive.google.com')) {
-      // Extract File ID: usually between /d/ and /view or /preview
+      // Extract File ID
       const driveIdMatch = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
       const driveId = driveIdMatch ? driveIdMatch[1] : null;
 
       if (driveId) {
-        // Embed URL must be /preview
         url = `https://drive.google.com/file/d/${driveId}/preview`;
-        // NEW: Generate a thumbnail URL from Google's internal service
+        // Public thumbnail service for Google Drive files
         thumb = `https://drive.google.com/thumbnail?id=${driveId}&sz=w1000`;
       }
     }
@@ -45,8 +46,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
     return { embedUrl: url, thumbnailUrl: thumb };
   }, [project.videoUrl]);
 
-  const handlePlay = (e: React.MouseEvent) => {
-    e.stopPropagation();
+  const handlePlay = (e?: React.MouseEvent) => {
+    if (e) e.stopPropagation();
     setIsPlaying(true);
   };
 
@@ -69,7 +70,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               className="absolute inset-0 z-10 cursor-pointer"
-              onClick={handlePlay}
+              onClick={() => handlePlay()}
             >
               {/* Poster Image */}
               <div className="relative w-full h-full">
@@ -77,14 +78,16 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                   <img 
                     src={thumbnailUrl} 
                     alt={project.title} 
-                    className="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-all duration-700 group-hover:scale-105"
+                    className="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-all duration-700 group-hover:scale-105"
                     onError={(e) => {
-                      // Fallback for YouTube high-res or Drive thumbnail failures
+                      const img = e.target as HTMLImageElement;
                       if (thumbnailUrl.includes('maxresdefault')) {
-                        (e.target as HTMLImageElement).src = thumbnailUrl.replace('maxresdefault', 'hqdefault');
+                        // Fallback to high quality if maxres is missing (common for older YT videos)
+                        img.src = thumbnailUrl.replace('maxresdefault', 'hqdefault');
                       } else {
-                        // Complete placeholder fallback
-                        (e.target as HTMLImageElement).style.display = 'none';
+                        // If it's a Drive thumbnail failure or secondary YT failure, hide and show icon
+                        img.parentElement?.classList.add('bg-zinc-900');
+                        img.style.display = 'none';
                       }
                     }}
                   />
@@ -94,21 +97,14 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                   </div>
                 )}
                 
-                {/* Fallback Overlay for missing images */}
-                {!thumbnailUrl && (
-                  <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center">
-                    <div className="w-16 h-16 mb-4 rounded-2xl bg-violet-600/10 flex items-center justify-center text-violet-500 border border-violet-500/20 group-hover:scale-110 transition-transform">
-                      {project.category === 'VR/AR' ? <Box size={32} /> : <Video size={32} />}
-                    </div>
-                  </div>
-                )}
-                
-                <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/20 to-transparent opacity-80" />
+                {/* Visual Polish Overlays */}
+                <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-transparent to-transparent opacity-90" />
+                <div className="absolute inset-0 bg-violet-600/5 group-hover:bg-violet-600/0 transition-colors duration-500" />
               </div>
               
               {/* Play Button Overlay */}
               <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-16 h-16 rounded-full bg-violet-600 flex items-center justify-center text-white shadow-2xl transition-all duration-300 group-hover:scale-125 group-hover:bg-violet-500 glow-violet">
+                <div className="w-16 h-16 rounded-full bg-violet-600 flex items-center justify-center text-white shadow-2xl transition-all duration-300 group-hover:scale-115 group-hover:bg-violet-500 glow-violet">
                   <Play fill="currentColor" size={24} className="ml-1" />
                 </div>
               </div>
@@ -143,7 +139,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
       </div>
 
       {/* Content */}
-      <div className="p-6 flex flex-col flex-grow bg-gradient-to-b from-zinc-900/50 to-zinc-950/80">
+      <div className="p-6 flex flex-col flex-grow bg-zinc-900/50">
         <h3 className="text-xl font-black text-white group-hover:text-cyan-400 transition-colors mb-2">
           {project.title}
         </h3>
@@ -157,7 +153,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
           {project.techStack.map((tech) => (
             <span
               key={tech}
-              className="px-2.5 py-1 text-[9px] font-bold uppercase border border-zinc-800 rounded-md text-zinc-500 bg-zinc-900/30"
+              className="px-2.5 py-1 text-[9px] font-bold uppercase border border-zinc-800 rounded-md text-zinc-500 bg-zinc-900/80"
             >
               {tech}
             </span>
@@ -167,7 +163,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
         {/* Actions */}
         <div className="mt-auto flex gap-3">
           <button
-            onClick={handlePlay}
+            onClick={() => handlePlay()}
             disabled={isPlaying}
             className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 font-black rounded-xl transition-all active:scale-95 text-[10px] tracking-widest uppercase shadow-lg ${
               isPlaying 
@@ -176,14 +172,14 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
             }`}
           >
             <Play size={14} fill="currentColor" />
-            {isPlaying ? 'Streaming...' : 'Watch Demo'}
+            {isPlaying ? 'Streaming Demo' : 'Watch Demo'}
           </button>
           <a
             href={project.videoUrl.replace('/embed/', '/watch?v=').replace('/preview', '')}
             target="_blank"
             rel="noopener noreferrer"
             className="p-3 bg-zinc-900 hover:bg-zinc-800 text-zinc-100 rounded-xl border border-zinc-800 transition-all active:scale-95 group"
-            title="Open Source Link"
+            title="Open Original Source"
           >
             <ExternalLink size={16} className="group-hover:text-cyan-400 transition-colors" />
           </a>

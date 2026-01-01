@@ -4,7 +4,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Unity Dev Portfolio</title>
+    <title>Mudassar Shaheen | Senior Unity Developer</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
@@ -42,20 +42,28 @@
       ::-webkit-scrollbar-thumb:hover {
         background: #3f3f46;
       }
+      /* Prevent layout shift during font loading */
+      .wf-loading body {
+        visibility: hidden;
+      }
     </style>
-  <script type="importmap">
+    <script type="importmap">
 {
   "imports": {
-    "framer-motion": "https://esm.sh/framer-motion@^12.23.26",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
-    "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
+    "react": "https://esm.sh/react@19.0.0",
+    "react-dom": "https://esm.sh/react-dom@19.0.0",
+    "react-dom/client": "https://esm.sh/react-dom@19.0.0/client",
+    "framer-motion": "https://esm.sh/framer-motion@11.11.11",
+    "lucide-react": "https://esm.sh/lucide-react@0.454.0",
     "react/": "https://esm.sh/react@^19.2.3/",
-    "react": "https://esm.sh/react@^19.2.3"
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/"
   }
 }
 </script>
-</head>
+  </head>
   <body>
     <div id="root"></div>
+    <!-- Entry point script -->
+    <script type="module" src="index.tsx"></script>
   </body>
 </html>
