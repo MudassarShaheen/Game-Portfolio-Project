@@ -190,14 +190,6 @@ export const PROJECTS: Project[] = [
     techStack: ['Unity', 'VR Physics', 'Rigidbody']
   },
   {
-    id: 'v3',
-    title: 'VR Meditation Demo',
-    description: 'Meditation project tailored for client-specific VR requirements.',
-    category: 'VR/AR',
-    videoUrl: 'https://www.youtube.com/embed/s1Tto1bQ0gE',
-    techStack: ['Unity', 'Quest 2', 'Client Demo']
-  },
-  {
     id: 'v4',
     title: 'Meta Quest Hand Interaction',
     description: 'Advanced Meta Quest hand tracking and interaction implementation.',

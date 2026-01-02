@@ -100,17 +100,22 @@ const App: React.FC = () => {
           </div>
 
           <div className="w-full lg:w-auto overflow-x-auto pb-4 lg:pb-0">
-            <div className="flex gap-2 p-2 glass rounded-2xl border-white/5 whitespace-nowrap">
+            <div className="flex gap-2 p-1.5 glass rounded-2xl border-white/5 whitespace-nowrap relative">
               {categories.map((cat) => (
                 <button
                   key={cat}
                   onClick={() => setActiveCategory(cat)}
-                  className={`px-5 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${
-                    activeCategory === cat 
-                      ? 'bg-violet-600 text-white glow-violet shadow-lg shadow-violet-900/40' 
-                      : 'text-zinc-400 hover:text-zinc-100 hover:bg-white/5'
+                  className={`relative px-6 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-colors duration-300 z-10 ${
+                    activeCategory === cat ? 'text-white' : 'text-zinc-500 hover:text-zinc-300'
                   }`}
                 >
+                  {activeCategory === cat && (
+                    <motion.span
+                      layoutId="activeTab"
+                      transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                      className="absolute inset-0 bg-violet-600 rounded-xl glow-violet -z-10 shadow-lg shadow-violet-900/40"
+                    />
+                  )}
                   {cat}
                 </button>
               ))}
