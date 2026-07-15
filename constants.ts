@@ -4,6 +4,15 @@ import { Project, Skill } from './types';
 export const PROJECTS: Project[] = [
   // --- Client Projects ---
   {
+    id: 'zanthalar',
+    title: 'Zanthalar: Multiplayer Card Game',
+    description: 'A real-time, socket-based multiplayer card game where players compete to reach 10 Expedition Points. Features a custom authoritative socket server, unique hero selection abilities, and 6 active card classifications.',
+    category: 'Client Projects',
+    videoUrl: 'https://drive.google.com/file/d/1mbAqWwqWINTM6bbhxHmxDlK2wRIx0fcs/view?usp=drive_link',
+    techStack: ['Unity', 'Custom Socket Server', 'Node.js/WS', 'C# Programming', 'State Authoritative'],
+    hasGdd: true
+  },
+  {
     id: 'c1',
     title: 'AI Agents English Learning',
     description: 'Immersive language learning powered by intelligent AI conversational agents.',

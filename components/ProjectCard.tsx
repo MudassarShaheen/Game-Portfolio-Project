@@ -3,7 +3,8 @@ import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Project } from '../types';
 import Skeleton from './Skeleton';
-import { Play, ExternalLink, Video } from 'lucide-react';
+import { Play, ExternalLink, Video, BookOpen } from 'lucide-react';
+import GddModal from './GddModal';
 
 interface ProjectCardProps {
   project: Project;
@@ -12,6 +13,7 @@ interface ProjectCardProps {
 const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isGddOpen, setIsGddOpen] = useState(false);
 
   const { embedUrl, thumbnailUrl } = useMemo(() => {
     let url = project.videoUrl;
@@ -152,6 +154,17 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
             <Play size={12} fill="currentColor" />
             {isPlaying ? 'Playing...' : 'Watch Demo'}
           </button>
+          
+          {project.hasGdd && (
+            <button
+              onClick={() => setIsGddOpen(true)}
+              className="flex-1 flex items-center justify-center gap-2 py-2.5 px-4 font-bold bg-zinc-900 hover:bg-zinc-850 text-zinc-300 hover:text-white rounded-lg border border-zinc-800 hover:border-violet-500/30 transition-all text-[10px] uppercase tracking-wider"
+            >
+              <BookOpen size={12} className="text-violet-400" />
+              View GDD
+            </button>
+          )}
+
           <a
             href={project.videoUrl}
             target="_blank"
@@ -162,6 +175,10 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
           </a>
         </div>
       </div>
+
+      {project.hasGdd && (
+        <GddModal isOpen={isGddOpen} onClose={() => setIsGddOpen(false)} />
+      )}
     </motion.div>
   );
 };

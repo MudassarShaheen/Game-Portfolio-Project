@@ -10,6 +10,7 @@ export interface Project {
   techStack: string[];
   playUrl?: string;
   caseStudyUrl?: string;
+  hasGdd?: boolean;
 }
 
 export interface Skill {
